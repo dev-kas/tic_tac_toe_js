@@ -2,13 +2,11 @@ const gameBoard = document.querySelector('.gameboard');
 
 const gameInfo = document.querySelector('.info');
 
-gameInfo.innerHTML = 'Circle is first '
+gameInfo.innerHTML = '<span style="color: rgb(35, 165, 90)">Circle</span> plays first';
 
 const gameBoxs = ["","","","","","","","",""];
 
 let start = "circle";
-
-
 
 function gameBox () {
     gameBoxs.forEach((_cell, index) => {
@@ -28,7 +26,7 @@ function addGo (e) {
     goDisay.classList.add(start);
     e.target.append(goDisay);
     start = start === 'circle' ? 'cross' : 'circle';
-    gameInfo.textContent = 'it is now ' + start + "'s go";
+    gameInfo.innerHTML = `it is now <span style="color: ${start === 'cross' ? 'rgb(242, 63, 67)' : 'rgb(35, 165, 90)'}">${start}</span>'s turn`;
     e.target.removeEventListener("click", addGo);
 
     checkScore();
@@ -43,22 +41,27 @@ function checkScore() {
     ]
 
     winningCombos.forEach(array => {
-        const circleWins = array.every(cell => 
-            allBox[cell].firstChild?.classList.contains('circle'))
+        const circleWins = array.every(cell => allBox[cell].firstChild?.classList.contains('circle'))
         if (circleWins) {
-        gameInfo.textContent = "Circle Wins!";
-        allBox.forEach(box => box.replaceWith(box.cloneNode(true)))
-    }
+            gameInfo.innerHTML = "<span style='color: rgb(35, 165, 90)'>Circle</span> Wins!";
+            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+            document.location.hash = "#gameOver";
+        }
     })
 
     winningCombos.forEach(array => {
-        const crossWins = array.every(cell => 
-            allBox[cell].firstChild?.classList.contains('cross'))
+        const crossWins = array.every(cell => allBox[cell].firstChild?.classList.contains('cross'))
         if (crossWins) {
-        gameInfo.textContent = "Cross Wins!";
-        allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
-    }
+            gameInfo.innerHTML = "<span style='color: rgb(242, 63, 67)'>Cross</span> Wins!";
+            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+            document.location.hash = "#gameOver";
+        }
     })
 
-    
+    const isDraw = [...allBox].every(box => box.firstChild);
+    if (isDraw) {
+        gameInfo.innerHTML = "<span style='color: rgb(226 219 85);'>Draw</span>!";
+        allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+        document.location.hash = "#gameOver";
+    }
 }
