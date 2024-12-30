@@ -71,14 +71,11 @@ body {
 }
 
 #gameOver {
-    display: none;
-    opacity: 0;
     transition: opacity 0.2s ease-in-out;
 }
 
-#gameOver:target {
-    display: block;
-    opacity: 1;
+.smoothHide {
+    opacity: 0;
 }
 
 .reset:active span,

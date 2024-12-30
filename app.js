@@ -26,11 +26,13 @@ function addGo (e) {
     goDisay.classList.add(start);
     e.target.append(goDisay);
     start = start === 'circle' ? 'cross' : 'circle';
-    gameInfo.innerHTML = `it is now <span style="color: ${start === 'cross' ? 'rgb(242, 63, 67)' : 'rgb(35, 165, 90)'}">${start}</span>'s turn`;
+    gameInfo.innerHTML = `It is now <span style="color: ${start === 'cross' ? 'rgb(242, 63, 67)' : 'rgb(35, 165, 90)'}">${start}</span>'s turn`;
     e.target.removeEventListener("click", addGo);
 
     checkScore();
 }
+
+let gameOver = false;
 
 function checkScore() {
     const allBox = document.querySelectorAll('.box')
@@ -40,28 +42,53 @@ function checkScore() {
         [0,4,8],[2,4,6]
     ]
 
-    winningCombos.forEach(array => {
-        const circleWins = array.every(cell => allBox[cell].firstChild?.classList.contains('circle'))
-        if (circleWins) {
-            gameInfo.innerHTML = "<span style='color: rgb(35, 165, 90)'>Circle</span> Wins!";
-            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
-            document.location.hash = "#gameOver";
-        }
-    })
+    if (!gameOver) {
+        winningCombos.forEach(array => {
+            const circleWins = array.every(cell => allBox[cell].firstChild?.classList.contains('circle'))
+            if (circleWins) {
+                gameInfo.innerHTML = "<span style='color: rgb(35, 165, 90)'>Circle</span> Wins!";
+                allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+                document.querySelector('#gameOver').classList.remove('smoothHide');
+                gameOver = true;
+            }
+        });
+    }
 
-    winningCombos.forEach(array => {
-        const crossWins = array.every(cell => allBox[cell].firstChild?.classList.contains('cross'))
-        if (crossWins) {
-            gameInfo.innerHTML = "<span style='color: rgb(242, 63, 67)'>Cross</span> Wins!";
-            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
-            document.location.hash = "#gameOver";
-        }
-    })
+    if (!gameOver) {
+        winningCombos.forEach(array => {
+            const crossWins = array.every(cell => allBox[cell].firstChild?.classList.contains('cross'))
+            if (crossWins) {
+                gameInfo.innerHTML = "<span style='color: rgb(242, 63, 67)'>Cross</span> Wins!";
+                allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+                document.querySelector('#gameOver').classList.remove('smoothHide');
+                gameOver = true;
+            }
+        });
+    }
 
-    const isDraw = [...allBox].every(box => box.firstChild);
-    if (isDraw) {
-        gameInfo.innerHTML = "<span style='color: rgb(226 219 85);'>Draw</span>!";
-        allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
-        document.location.hash = "#gameOver";
+    if (!gameOver) {
+        const isDraw = [...allBox].every(box => box.firstChild);
+        if (isDraw) {
+            gameInfo.innerHTML = "<span style='color: rgb(226 219 85);'>Draw</span>!";
+            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+            document.querySelector('#gameOver').classList.remove('smoothHide');
+            gameOver = true;
+        };
     }
 }
+
+function restartGame() {
+    for (let i = 0; i < gameBoxs.length; i++) {
+        gameBoxs[i] = "";
+    }
+    gameOver = false;
+    start = "circle";
+    gameBoard.innerHTML = "";
+    gameInfo.innerHTML = '<span style="color: rgb(35, 165, 90)">Circle</span> plays first';
+    gameBox();
+    setTimeout(() => {
+        document.querySelector('#gameOver').classList.add('smoothHide');
+    }, 300)
+}
+
+document.querySelector('#restartGame').addEventListener('click', restartGame);
