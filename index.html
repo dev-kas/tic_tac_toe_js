@@ -12,8 +12,9 @@
         <div class="gameboard"></div>
         <p class="info"></p>
 
-        <div id="gameOver">
-            <button class="reset" onclick="setTimeout(() => {document.location.hash = ''; location.reload();}, 300)"><span style="font-family: fontawesome;"></span></button>
+        <div id="gameOver" class="smoothHide">
+            <!-- Things to show when the game is over goes here... -->
+            <button id="restartGame" class="reset"><span style="font-family: fontawesome;"></span></button>
         </div>
 
         <script src="./app.js"></script>
