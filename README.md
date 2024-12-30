@@ -8,7 +8,7 @@ This is a simple implementation of the classic Tic Tac Toe game.
 
 ## Features
 
-- one-player game
+- two-player game
 - Interactive UI
 - Simple and easy to use
 
