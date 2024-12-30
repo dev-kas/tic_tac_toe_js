@@ -14,7 +14,7 @@ This is a simple implementation of the classic Tic Tac Toe game.
 
 ## Screenshots
 
-![Screenshot from 2024-12-30 00-35-48](https://github.com/user-attachments/assets/a9ca34b4-b8f2-40e7-9245-d216a1679349)
+![Screenshot from 2024-12-30 08-28-01](https://github.com/user-attachments/assets/a1eca89b-29b1-4e49-8068-90b0d69c9418)
 
 ## Demo
 
